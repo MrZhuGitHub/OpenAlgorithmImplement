@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torchvision
 from torch.utils import data
-# import cv2
 import torch
 from PIL import Image
 
@@ -55,11 +54,9 @@ if __name__=="__main__":
     trainer = torch.optim.SGD(net.parameters(), lr=0.01, momentum=0.9, weight_decay=0.0005)
 
     miniImageNet_dataSet = dataset_load.miniImageNet_load()
-    train_iter = data.DataLoader(dataset=miniImageNet_dataSet, batch_size=100, num_workers=8, shuffle=True)
+    train_iter = data.DataLoader(dataset=miniImageNet_dataSet, batch_size=200, num_workers=8, shuffle=True)
 
-    test_data_list = miniImageNet_dataSet.get_test_data()
-
-    num_epoch = 500
+    num_epoch = 100
     for epoch in range(num_epoch):
         net.train()
         for index, batch_data_and_label in enumerate(train_iter):
@@ -83,6 +80,7 @@ if __name__=="__main__":
                 if 1 == label[type].numpy():
                     train_true_count = train_true_count + 1          
 
+            test_data_list = miniImageNet_dataSet.get_test_data()
             test_true_count = 0
             for index, value in enumerate(test_data_list):
                 sample_data, label = value
